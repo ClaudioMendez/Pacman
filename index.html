@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Pacman Demo</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+	<div id="world"></div>
+	<div id="pacman"></div>
+	<div id="score">0</div>
+<!-- 	<div id="cherry"></div> -->
+
+	<script>
+		var world = [
+		[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+		[2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,2],
+		[2,1,2,2,2,1,2,2,2,2,1,2,1,2,2,2,2,1,2,2,2,1,2],
+		[2,1,2,2,2,1,2,2,2,2,1,2,1,2,2,2,2,1,2,2,2,1,2],
+		[2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+		[2,1,2,2,2,1,2,1,2,2,2,1,2,2,2,1,2,1,2,2,2,1,2],
+		[2,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,2],
+		[2,2,2,2,2,1,2,2,2,2,1,2,1,2,2,2,2,1,2,2,2,2,2],
+		[2,2,2,2,2,1,2,1,1,1,1,1,1,1,1,1,2,1,2,2,2,2,2],
+		[2,2,2,2,2,1,2,1,2,1,2,2,2,1,2,1,2,1,2,2,2,2,2],
+		[2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+		[2,1,2,2,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,2,2,1,2],
+		[2,1,1,1,2,1,2,1,1,1,1,1,1,1,1,1,2,1,2,1,1,1,2],
+		[2,2,2,1,2,1,2,1,2,1,2,2,2,1,2,1,2,1,2,1,2,2,2],
+		[2,1,1,1,1,1,1,1,2,1,1,2,1,1,2,1,1,1,1,1,1,1,2],
+		[2,1,2,1,2,1,2,2,2,2,1,1,1,2,2,2,2,1,2,1,2,1,2],
+		[2,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,2,1,2],
+		[2,1,2,2,2,1,2,1,2,1,2,2,2,1,2,2,2,1,2,2,2,1,2],
+		[2,1,1,1,1,1,2,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,2],
+		[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]
+		];
+
+		var pacman={
+			x: 1,
+			y: 1
+		}
+		var cherry={
+			x: 180,
+			y: 180
+		}
+		var score=0;
+
+		function displayWorld(){
+			var output='';
+			for(i=0; i<world.length; i++){
+				output += "\n<div class='row'>"
+				for(j=0; j<world[i].length; j++){
+					if(world[i][j]==2){
+						output += "\n\t<div class='brick'></div>";
+					}
+					else if(world[i][j]==1){
+						output += "\n\t<div class='coin'></div>";
+					}
+					// if(world[i][j]==3){
+					// 	output +="<div class='cherry'</div>"
+					//}
+					if(world[i][j]==0){
+						output += "\n\t<div class='empty'></div>";
+					}
+				}
+				output += "\n </div>"
+			}
+			document.getElementById('world').innerHTML = output;
+		}
+
+		function displayPacman(){
+			document.getElementById('pacman').style.top = pacman.y*24+"px";
+			document.getElementById('pacman').style.left = pacman.x*24+"px";
+		}
+
+		function displayScore(){
+			document.getElementById('score').innerHTML = score;
+		}
+		// function displayCherry(){
+		// 	document.getElementById('cherry').innerHTML = cherry.x+"px";
+		// 	document.getElementById('cherry').innerHTML = cherry.y+"px";
+		// }
+
+		displayWorld();
+		displayPacman();
+		// displayCherry();
+		document.onkeydown = function(tecla){
+			if(tecla.keyCode==37 && world[pacman.y][pacman.x-1]!= 2){
+				pacman.x--;
+			}
+			else if(tecla.keyCode==38 && world[pacman.y-1][pacman.x]!=2){
+				pacman.y--;
+			}
+			else if(tecla.keyCode==39 && world[pacman.y][pacman.x+1]!=2){
+				pacman.x++;
+			}
+			else if(tecla.keyCode==40 && world[pacman.y+1][pacman.x]!=2){
+				pacman.y++;
+			}
+			if(world[pacman.y][pacman.x]==1){
+				world[pacman.y][pacman.x]=0;
+				score+=10;
+				displayWorld();
+				displayScore();
+			}
+			console.log(tecla.keyCode);
+			displayPacman();
+		}
+
+	</script>
+</body>
+</html>
